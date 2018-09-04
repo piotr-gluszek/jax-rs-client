@@ -1,17 +1,21 @@
 package pl.piotrgluszek.client.connection;
 
 import pl.piotrgluszek.client.model.Comment;
+import pl.piotrgluszek.client.utility.Dictionary;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ResourceBundle;
 
 public class CommentManager {
 
-    private static final String WEB_TARGET = "https://jsonplaceholder.typicode.com/";
-    private static final String COMMENTS_PATH = "comments";
+    private static final String WEB_TARGET = ResourceBundle .getBundle(Dictionary.CONNECTION_BUNDLE_NAME)
+                                                            .getString(Dictionary.WEB_TARGET);
+    private static final String COMMENTS_PATH = ResourceBundle  .getBundle(Dictionary.CONNECTION_BUNDLE_NAME)
+                                                                .getString(Dictionary.COMMENTS_PATH);
 
     public static Comment[] getAllComment() {
 
@@ -20,7 +24,6 @@ public class CommentManager {
                 .path(COMMENTS_PATH)
                 .request(MediaType.APPLICATION_JSON)
                 .get(Comment[].class);
-        client.close();
         return comments;
     }
 
@@ -31,7 +34,6 @@ public class CommentManager {
                 .path(String.valueOf(commentId))
                 .request(MediaType.APPLICATION_JSON)
                 .get(Comment.class);
-        client.close();
         return comment;
     }
 
@@ -42,7 +44,6 @@ public class CommentManager {
                 .queryParam("postId", postId)
                 .request(MediaType.APPLICATION_JSON)
                 .get(Comment[].class);
-        client.close();
         return comments;
     }
 
